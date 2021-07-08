@@ -1,45 +1,79 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <Ranking :teams=nbaTeams></Ranking>
+    <img alt="Vue logo" src="./assets/nba_logo.png">
+
+    <table id="selector">
+      <tr>
+        <td><button @click="displayRanking('allTeamRanking')">NBA ranking</button></td>
+        <td><button @click="displayRanking()">Conference Ranking</button></td>
+        <td><button @click="displayRanking('division')">Division Ranking</button></td>
+      </tr>
+    </table>
+    <Ranking v-show="displayNbaRank" :teams=nbaTeams></Ranking>
+
+    <table v-show="displayConference">
+      <tr>
+        <td><Ranking :teams="westernConference"></Ranking></td>
+        <td id="space"></td>
+        <td><Ranking :teams="westernConference"></Ranking></td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
 import Ranking from './components/Ranking.vue'
 
-var nbaAllTeams = [
-  { name:"Nuggets de Denver"},
-  { name:"Warriors de GoldenState"},
+const southwestDivision = [
   { name:"Mavericks de Dallas"},
-  { name:"Celtics de Boston"},
-  { name: "Bulls de Chicago"},
-  { name: "Hawks d'Atlanta"},
-  { name: "Timberwolves du Minnesota"},
-  { name: "Clippers de Los Angeles"},
   { name: "Rockets de Houston"},
-  { name: "Nets de Brooklyn"},
-  { name: "Cavaliers de Cleveland"},
-  { name: "Hornets de Charlotte"},
-  { name: "Thunder d'Oklahoma City"},
-  { name: "Lakers de Los Angeles"},
   { name: "Grizzlies de Memphis"},
-  { name: "Knicks de New York"},
-  { name: "Pistons de Détroit"},
-  { name: "Heat de Miami"},
-  { name: "Trail Blazers de Portland"},
-  { name: "Suns de Phoenix"},
   { name: "Pelicans de La Nouvelle-Orléans"},
-  { name: "76ers de Philadelphie"},
-  { name: "Pacers de l'Indiana"},
-  { name: "Magic d'Orlando"},
-  { name: "Jazz de l'Utah"},
-  { name: "Kings de Sacramento"},
   { name: "Spurs de San Antonio"},
-  { name: "Raptors de Toronto"},
-  { name: "Bucks de Milwaukee"},
-  { name: "Wizards de Washington"},
 ];
+
+const pacificDivision = [
+  { name: "Suns de Phoenix"},
+  { name: "Clippers de Los Angeles"},
+  { name: "Lakers de Los Angeles"},
+  { name: "Kings de Sacramento"},
+  { name:"Warriors de GoldenState"},
+];
+
+const northwestDivision = [
+  { name:"Nuggets de Denver"},
+  { name: "Jazz de l'Utah"},
+  { name: "Thunder d'Oklahoma City"},
+  { name: "Trail Blazers de Portland"},
+  { name: "Timberwolves du Minnesota"},
+];
+
+const atlanticDivision = [
+  { name: "76ers de Philadelphie"},
+  { name: "Nets de Brooklyn"},
+  { name: "Knicks de New York"},
+  { name:"Celtics de Boston"},
+  { name: "Raptors de Toronto"},
+];
+
+const centralDivision = [
+  { name: "Bucks de Milwaukee"},
+  { name: "Bulls de Chicago"},
+  { name: "Cavaliers de Cleveland"},
+  { name: "Pacers de l'Indiana"},
+  { name: "Pistons de Détroit"},
+];
+
+const southeastDivision = [
+  { name: "Heat de Miami"},
+  { name: "Hawks d'Atlanta"},
+  { name: "Wizards de Washington"},
+  { name: "Hornets de Charlotte"},
+  { name: "Magic d'Orlando"},
+];
+
+const easternConference =  centralDivision.concat(southeastDivision).concat(atlanticDivision);
+const westernConference = southwestDivision.concat(northwestDivision).concat(pacificDivision);
 
 export default {
   name: 'App',
@@ -48,9 +82,31 @@ export default {
   },
   data: function (){
     return {
-      nbaTeams: nbaAllTeams
+      nbaTeams: easternConference.concat(westernConference),
+      easternConference: easternConference,
+      westernConference: westernConference,
+      displayDivision: false,
+      displayConference: true,
+      displayNbaRank: false,
     }
-  }
+  },
+  methods:{
+    displayRanking: function (rankingToDisplay) {
+      this.displayDivision=false;
+      this.displayConference=false;
+      this.displayNbaRank=false;
+
+      if (rankingToDisplay==="division"){
+        this.displayDivision = true;
+      }
+      else if(rankingToDisplay==="allTeamRanking"){
+        this.displayNbaRank = true;
+      }
+      else{
+        this.displayConference =true;
+      }
+    }
+  },
 }
 </script>
 
@@ -62,6 +118,28 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#selector td {
+  padding: 3em;
+}
+
+#selector button {
+  height: 4em;
+  width: 16em;
+}
+
+#space {
+  padding: 2em;
+}
+
+table {
+  margin: 2em auto 2em auto;
+}
+
+img {
+  height: 10em;
+  width: auto;
 }
 
 </style>

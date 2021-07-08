@@ -32,8 +32,6 @@ export default {
 <style scoped>
 
 table {
-  margin-left: auto;
-  margin-right: auto;
   border: 1px solid black;
   border-collapse: collapse;
 }
