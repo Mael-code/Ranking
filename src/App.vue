@@ -12,11 +12,51 @@
     <Ranking v-show="displayNbaRank" :teams=nbaTeams></Ranking>
 
     <table v-show="displayConference">
+      <thead>
       <tr>
-        <td><Ranking :teams="westernConference"></Ranking></td>
-        <td id="space"></td>
-        <td><Ranking :teams="westernConference"></Ranking></td>
+        <td>Western Conference</td>
+        <td class="space"></td>
+        <td>Eastern Conference</td>
       </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><Ranking :teams="westernConference"></Ranking></td>
+          <td class="space"></td>
+          <td><Ranking :teams="easternConference"></Ranking></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table id="division" v-show="displayDivision">
+      <thead>
+      <td>Southwest Division</td>
+      <td class="space"></td>
+      <td>Pacific Division</td>
+      <td class="space"></td>
+      <td>Northwest Division</td>
+      <td class="space"></td>
+      <td>Atlantic Division</td>
+      <td class="space"></td>
+      <td>Central Division</td>
+      <td class="space"></td>
+      <td>Southeast Division</td>
+      </thead>
+      <tbody>
+        <tr>
+          <td><Ranking :teams="southwestDivision"></Ranking></td>
+          <td class="space"></td>
+          <td><Ranking :teams="pacificDivision"></Ranking></td>
+          <td class="space"></td>
+          <td><Ranking :teams="northwestDivision"></Ranking></td>
+          <td class="space"></td>
+          <td><Ranking :teams="atlanticDivision"></Ranking></td>
+          <td class="space"></td>
+          <td><Ranking :teams="centralDivision"></Ranking></td>
+          <td class="space"></td>
+          <td><Ranking :teams="southeastDivision"></Ranking></td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
@@ -85,6 +125,12 @@ export default {
       nbaTeams: easternConference.concat(westernConference),
       easternConference: easternConference,
       westernConference: westernConference,
+      centralDivision: centralDivision,
+      southeastDivision: southeastDivision,
+      atlanticDivision: atlanticDivision,
+      southwestDivision: southwestDivision,
+      northwestDivision: northwestDivision,
+      pacificDivision: pacificDivision,
       displayDivision: false,
       displayConference: true,
       displayNbaRank: false,
@@ -121,7 +167,7 @@ export default {
 }
 
 #selector td {
-  padding: 3em;
+  padding: 1em;
 }
 
 #selector button {
@@ -129,12 +175,17 @@ export default {
   width: 16em;
 }
 
-#space {
+#division .space {
+  padding: 0px;
+}
+
+.space {
   padding: 2em;
 }
 
+
 table {
-  margin: 2em auto 2em auto;
+  margin: 0 auto 1em auto;
 }
 
 img {
